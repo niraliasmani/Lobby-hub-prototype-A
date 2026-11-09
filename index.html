@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: a viewer surround (theme-aware) holding one iPad mini device (744×1133, iOS light, fixed palette from the Figma file) plus a test-task rail. */
+/* Layout: a viewer surround (theme-aware) holding one iPad mini device (744×1133, iOS light, fixed palette from the Figma file) plus a small info rail. */
 :root{
   --page:#e9eaee; --page-fg:#1c1d22; --page-muted:#5e6068; --page-line:#cfd1d8; --page-card:#f7f7f9; --page-accent:#0074c8;
   --ios:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter","Helvetica Neue",Arial,sans-serif;
@@ -29,17 +29,10 @@ body{background:var(--page);color:var(--page-fg);font-family:var(--ios);-webkit-
 .rail h1{font-size:20px;font-weight:700;margin:0;letter-spacing:-.01em;text-wrap:balance}
 .rail .sub{font-size:13px;color:var(--page-muted);margin:4px 0 0;line-height:1.45}
 .rail h2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--page-muted);margin:0 0 8px;font-weight:600}
-.tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--page-line);border-radius:10px;background:var(--page-card);overflow:hidden}
-.tasks li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;font-size:14px;line-height:1.35;border-top:1px solid var(--page-line)}
-.tasks li:first-child{border-top:0}
-.tasks input{margin-top:2px;accent-color:var(--page-accent)}
-.tasks label{cursor:pointer}
-.tasks li.done label{color:var(--page-muted);text-decoration:line-through}
 .rail .row{display:flex;gap:8px;flex-wrap:wrap}
 .rbtn{font:600 13px var(--ios);border:1px solid var(--page-line);background:var(--page-card);color:var(--page-fg);border-radius:8px;padding:8px 12px;cursor:pointer}
 .rbtn:hover{border-color:var(--page-accent)}
-.rbtn:focus-visible,.tasks input:focus-visible{outline:2px solid var(--page-accent);outline-offset:2px}
-.hint{font-size:12px;color:var(--page-muted);line-height:1.5;margin:0}
+.rbtn:focus-visible,.hint{font-size:12px;color:var(--page-muted);line-height:1.5;margin:0}
 .stage{flex:none;position:relative}
 @media (max-width:1100px){.viewer{flex-direction:column;align-items:center}.rail{position:static;width:100%;max-width:744px}}
 /* full-bleed on the device itself */
@@ -410,18 +403,13 @@ body.bare .stage{margin:0 auto}
 <body>
 <div class="viewer">
   <div class="stage" id="stage"><div id="device"></div></div>
-  <aside class="rail" aria-label="Test session">
+  <aside class="rail" aria-label="About this prototype">
     <div>
       <h1>Lobby Hub 2.0</h1>
       <p class="sub">Interactive prototype of the updated Hub on iPad mini (744 × 1133). Tap anywhere that isn't interactive to flash the hotspots.</p>
     </div>
-    <div>
-      <h2>Test tasks</h2>
-      <ul class="tasks" id="tasks"></ul>
-    </div>
     <div class="row">
       <button class="rbtn" id="resetBtn" type="button">Restart prototype</button>
-      <button class="rbtn" id="clearTasks" type="button">Clear task checks</button>
     </div>
     <p class="hint">On an iPad mini, open this page in Safari and add it to the Home Screen to run full screen.</p>
   </aside>
@@ -1007,15 +995,6 @@ window.addEventListener('resize',fit);
 window.addEventListener('orientationchange',()=>setTimeout(fit,250));
 if(window.visualViewport)window.visualViewport.addEventListener('resize',fit);
 fit();
-
-/* ---------- test tasks rail ---------- */
-const TASKS=['Verify the type of kennel for Clayton’s AVIH','Check Valerie’s documents','Add a Bag to Clayton','Open the seat map','View Clayton’s Atmos Rewards Number','Open the reservation Remarks','Check in Anita and Valerie','Print a boarding pass'];
-let done=[];try{done=JSON.parse(localStorage.getItem('lh-tasks')||'[]')}catch(e){}
-const tl=document.getElementById('tasks');
-function drawTasks(){tl.innerHTML=TASKS.map((t,i)=>`<li class="${done.includes(i)?'done':''}"><input type="checkbox" id="task${i}" ${done.includes(i)?'checked':''}><label for="task${i}">${t}</label></li>`).join('')}
-drawTasks();
-tl.addEventListener('change',e=>{const i=+e.target.id.slice(4);done=e.target.checked?[...done,i]:done.filter(x=>x!==i);try{localStorage.setItem('lh-tasks',JSON.stringify(done))}catch(_){}drawTasks()});
-document.getElementById('clearTasks').addEventListener('click',()=>{done=[];try{localStorage.removeItem('lh-tasks')}catch(_){}drawTasks()});
 })();
 </script>
 

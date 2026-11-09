@@ -12,7 +12,7 @@ Interactive prototype of the updated **Lobby Hub** (the "Hub / Updated" frame fr
 - **Bulk Add Bags** – opened only from the bottom action bar: Group Assign, per-guest bag types with steppers, Special Items menu and a running total.
 - **Check-in** – Continue opens Summary & Payment; paying checks in the selected guests. Boarding Pass supports Print and Send.
 
-A side panel lists the usability-test tasks, with a **Restart prototype** button. Tap any non-interactive area to flash the hotspots.
+On a desktop, a side panel has a **Restart prototype** button. Tap any non-interactive area to flash the hotspots.
 
 ## Running it
 
